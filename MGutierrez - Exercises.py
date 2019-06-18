@@ -156,7 +156,7 @@ print(b)
 #     
 # If you have multiple lines with plt.plot(), Python will plot all of them together, unless you write plt.show() after each one. I want these all on one plot.
 
-# In[21]:
+# In[13]:
 
 
 # A.
@@ -165,7 +165,7 @@ def gauss(mu,sig,x):
     return y
 
 
-# In[22]:
+# In[14]:
 
 
 # B. 
@@ -176,7 +176,7 @@ y2 = gauss(0,1.5,x)
 y3 = gauss(-1,1,x)
 
 
-# In[23]:
+# In[15]:
 
 
 # C. & D. 
@@ -200,23 +200,45 @@ plt.plot()
 # 
 # Hint: if you attempt to call a function from a library or package that hasn't been imported, you will get an error.
 
-# In[16]:
+# In[21]:
 
 
 # your solution here
+from scipy.stats import norm
+gauss = np.genfromtxt('histogram_exercise.dat').T
+mu, sigma = norm.fit(gauss)
+x = np.linspace(-1,11,1000)
+pdf = norm.pdf(x,mu,sigma)
+plt.plot(x, pdf, 'k-', linewidth=2)
+plt.hist(gauss, bins=50, color='#770000', alpha=0.4, density=True, fill=True, histtype='step')
+plt.title("Fit results: $\mu$ = %.2f, $\sigma$ = %.2f" % (mu, sigma)) 
+#Pro-tip: this prints out the values of mu and sigma to 2
+#decimal places.
+
+plt.show()
 
 
 # #### Exercise 2
 # 
 # Create a 1D interpolation along these arrays. Plot both the data (as points) and the interpolation (as a dotted line). Also plot the value of the interpolated function at x=325. What does the function look like to you?
 
-# In[17]:
+# In[39]:
 
 
 x = np.array([0., 50., 100., 150., 200., 250., 300., 350., 400., 450., 500])
 y = np.array([0., 7.071, 10., 12.247, 14.142, 15.811, 17.321, 18.708, 20., 21.213, 22.361])
 
 # solution here
+from scipy.interpolate import interp1d
+
+interp = interp1d(x, y)
+xnew = np.linspace(0, 500, 2000)
+ynew = interp(xnew)
+
+plt.plot(xnew, ynew, '--',label='interpolation')
+plt.plot(x, y, 'or', label='data')
+plt.plot(325,interp(325),'sk', label='interp(325)')
+plt.legend() #it looks like a sqrt(x) plot
 
 
 # ### Day 4
@@ -233,7 +255,7 @@ y = np.array([0., 7.071, 10., 12.247, 14.142, 15.811, 17.321, 18.708, 20., 21.21
 #     
 # B. Plot your function in log-log space for T = 25, 50, and 300 K. The most sensible frequency range is about 10^5 to 10^15 Hz. Hint: if your units are correct, your peak values of B(T) should be on the order of 10^-10. Make sure everything is labelled. 
 
-# In[18]:
+# In[ ]:
 
 
 # solution here
@@ -251,7 +273,7 @@ y = np.array([0., 7.071, 10., 12.247, 14.142, 15.811, 17.321, 18.708, 20., 21.21
 # 
 # C. Plot the X-ray data as contours above the optical image. Make the contours spring green with 80% opacity and dotted lines. Make the levels go from 2$\sigma$ to 10$\sigma$ in steps of 2$\sigma$. (It might be easier to define the levels array before show_contours, and set levels=levels.)
 
-# In[19]:
+# In[ ]:
 
 
 # solution here
